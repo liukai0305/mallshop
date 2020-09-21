@@ -1,26 +1,35 @@
 package com.example.dianshang.ui.home;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.alibaba.android.vlayout.DelegateAdapter;
+import com.alibaba.android.vlayout.VirtualLayoutManager;
+import com.alibaba.android.vlayout.layout.GridLayoutHelper;
+import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.alibaba.android.vlayout.layout.SingleLayoutHelper;
 import com.example.dianshang.R;
+import com.example.dianshang.adapter.home.BannerAdapter;
+import com.example.dianshang.adapter.home.BrandAdapter;
+import com.example.dianshang.adapter.home.FuFreshAdapter;
+import com.example.dianshang.adapter.home.FuGuessyouAdapter;
+import com.example.dianshang.adapter.home.FuPopularityAdapter;
+import com.example.dianshang.adapter.home.FuSpecialAdapter;
+import com.example.dianshang.adapter.home.HomeBrandAdapter;
+import com.example.dianshang.adapter.home.HomeMarqueeAdappter;
+import com.example.dianshang.adapter.home.HomeSeckillAdapter;
+import com.example.dianshang.adapter.home.NavigationAdapter;
+import com.example.dianshang.adapter.home.SeckillAdapter;
 import com.example.dianshang.base.BaseFragment;
-import com.example.dianshang.bean.homebean.HomeBannerBean;
-import com.example.dianshang.common.AutoTextView;
+import com.example.dianshang.bean.homebean.HomeBean;
+import com.example.dianshang.bean.homebean.NavigationBean;
 import com.example.dianshang.interfaces.home.IHome;
 import com.example.dianshang.persenter.home.HomePersenter;
 import com.example.dianshang.utils.DateUtil;
-import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,75 +39,26 @@ import butterknife.BindView;
 public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome.View {
 
 
-    @BindView(R.id.home_banner)
-    Banner homeBanner;
-    @BindView(R.id.huati)
-    TextView huati;
-    @BindView(R.id.youxuan)
-    TextView youxuan;
-    @BindView(R.id.tehui)
-    TextView tehui;
-    @BindView(R.id.qiandao)
-    TextView qiandao;
-    @BindView(R.id.ll)
-    LinearLayout ll;
-    @BindView(R.id.img_home_xiaoxi)
-    ImageView imgHomeXiaoxi;
-    @BindView(R.id.autoTextView)
-    AutoTextView autoTextView;
-    @BindView(R.id.ll1)
-    RelativeLayout ll1;
-    @BindView(R.id.gengduo)
-    ImageView gengduo;
-    @BindView(R.id.pin)
-    TextView pin;
-    @BindView(R.id.home_rcy_pinpai)
-    RecyclerView homeRcyPinpai;
-    @BindView(R.id.txt_seckill)
-    TextView txtSeckill;
-    @BindView(R.id.txt_next)
-    TextView txtNext;
-    @BindView(R.id.txt_time_left)
-    TextView txtTimeLeft;
-    @BindView(R.id.tv_time_hour)
-    TextView tvHour;
-    @BindView(R.id.tv_time_minute)
-    TextView tvMinute;
-    @BindView(R.id.tv_time_second)
-    TextView tvSecond;
-    @BindView(R.id.linea_time)
-    LinearLayout lineaTime;
-    @BindView(R.id.rcl_seckill)
-    RecyclerView rclSeckill;
-    @BindView(R.id.cons_seckill)
-    ConstraintLayout consSeckill;
-    @BindView(R.id.xin)
-    TextView xin;
-    @BindView(R.id.geng)
-    ImageView geng;
-    @BindView(R.id.home_rcy_xin)
-    RecyclerView homeRcyXin;
-    @BindView(R.id.renqi)
-    TextView renqi;
-    @BindView(R.id.duo)
-    ImageView duo;
-    @BindView(R.id.home_rcy_renqi)
-    RecyclerView homeRcyRenqi;
-    @BindView(R.id.zhuanti)
-    TextView zhuanti;
-    @BindView(R.id.zhuan)
-    ImageView zhuan;
-    @BindView(R.id.home_rcy_zhuanti)
-    RecyclerView homeRcyZhuanti;
-    @BindView(R.id.caini)
-    TextView caini;
-    @BindView(R.id.home_rcy_caini)
-    RecyclerView homeRcyCaini;
-    private List<String> arrList = new ArrayList<String>();
-    private Handler handler = new Handler();
-    private int count = 0;
-    private Runnable runnable;
-    private TimeThread timeThread;
+    @BindView(R.id.rcy)
+    RecyclerView rcy;
+
+    private ArrayList<HomeBean.DataBean.AdvertiseListBean> list;
+    private BannerAdapter bannerAdapter;
+    private ArrayList<NavigationBean> navigationList;
+    private HomeMarqueeAdappter homeMarqueeAdappter;
+    private ArrayList<HomeBean.DataBean.HotProductListBean> list1;
+    private ArrayList<HomeBean.DataBean.BrandListBean> brandListBean;
+    private ArrayList<HomeBean.DataBean.NewProductListBean> newProductListBeans;
+    private SeckillAdapter seckillAdapter;
+    private ArrayList<HomeBean.DataBean.HotProductListBean> XinXianList;
+    private FuFreshAdapter fuFreshAdapter;
+    private ArrayList<HomeBean.DataBean.HotProductListBean> renqilist;
+    private FuPopularityAdapter fuPopularityAdapter;
+    private ArrayList<HomeBean.DataBean.AdvertiseListBean> zhuantilist;
+    private FuSpecialAdapter fuSpecialAdapter;
+    private ArrayList<HomeBean.DataBean.HotProductListBean> cainiList;
+    private FuGuessyouAdapter fuGuessyouAdapter;
+
 
     @Override
     protected int getLayout() {
@@ -107,90 +67,77 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
 
     @Override
     protected void initView() {
-        initTime();
-        timeThread = new TimeThread();
-        timeThread.start();
-    }
-
-    private void initTime() {
-        String time = DateUtil.getTime();
-        String[] timeSplit = time.split(":");
-        if (timeSplit.length > 0) {
-            int hour = Integer.parseInt(timeSplit[0]);
-            int minute = 60 - Integer.parseInt(timeSplit[1]);
-            int second = 60 - Integer.parseInt(timeSplit[2]);
-            if (txtNext != null && tvHour != null && tvSecond != null && tvMinute != null) {
-                txtNext.setText("下一场" + (hour + 1) + "：00开始");
-                tvHour.setText("00");
-                tvMinute.setText(minute + "");
-                tvSecond.setText(second + "");
-                if (minute < 10) {
-                    tvMinute.setText("0" + minute);
-                }
-                if (second < 10) {
-                    tvSecond.setText("0" + second);
-                }
-                if (minute == 60) {
-                    tvMinute.setText("00");
-                }
-                if (second == 60) {
-                    tvSecond.setText("00");
-                }
-                if (minute == 0 && second == 0) {
-                    tvHour.setText("01");
-                    tvMinute.setText("00");
-                    tvSecond.setText("00");
-                }
-            }
-        }
-    }
-
-    private static final int msgKey1 = 1;
-
-    public class TimeThread extends Thread {
-        @Override
-        public void run() {
-            do {
-                try {
-                    Thread.sleep(1000);
-                    Message msg = new Message();
-                    msg.what = msgKey1;
-                    mHandler.sendMessage(msg);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while (true);
-        }
-    }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case msgKey1:
-                    initTime();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void getGunDong() {
-        runnable = new Runnable() {
+        //头部
+        VirtualLayoutManager virtualLayoutManager = new VirtualLayoutManager(getActivity());
+        DelegateAdapter delegateAdapter = new DelegateAdapter(virtualLayoutManager, false);
+        rcy.setLayoutManager(virtualLayoutManager);
+        rcy.setAdapter(delegateAdapter);
+        //轮播图
+        list = new ArrayList<>();
+        SingleLayoutHelper singleLayoutHelper = new SingleLayoutHelper();
+        bannerAdapter = new BannerAdapter(list, getActivity(), singleLayoutHelper);
+        delegateAdapter.addAdapter(bannerAdapter);
+        //横向导航
+        NavigationBean data1 = new NavigationBean(R.mipmap.huati, "话题");
+        NavigationBean data2 = new NavigationBean(R.mipmap.youxuan, "优选");
+        NavigationBean data3 = new NavigationBean(R.mipmap.tehui, "特惠");
+        NavigationBean data4 = new NavigationBean(R.mipmap.qiandao, "签到");
+        navigationList = new ArrayList<>();
+        navigationList.add(data1);
+        navigationList.add(data2);
+        navigationList.add(data3);
+        navigationList.add(data4);
+        GridLayoutHelper helper = new GridLayoutHelper(4);
+        NavigationAdapter navigationAdapter = new NavigationAdapter(context, navigationList, helper);
+        navigationAdapter.notifyDataSetChanged();
+        navigationAdapter.setOnClickList(new NavigationAdapter.OnClickList() {
             @Override
-            public void run() {
-                try {
-                    handler.postDelayed(this, 1000);
-                    autoTextView.next();
-                    autoTextView.setText(arrList.get(count % arrList.size()));
-                    count++;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            public void OnClick(int position) {
+                Toast.makeText(context, "哈哈" + position, Toast.LENGTH_SHORT).show();
             }
-        };
+        });
+        delegateAdapter.addAdapter(navigationAdapter);
+        //广告
+        list1 = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper = new LinearLayoutHelper();
+        homeMarqueeAdappter = new HomeMarqueeAdappter(list1, getActivity(), linearLayoutHelper);
+        delegateAdapter.addAdapter(homeMarqueeAdappter);
+        //品牌
+        brandListBean = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper1 = new LinearLayoutHelper();
+        BrandAdapter brandAdapter = new BrandAdapter(brandListBean, getActivity(), linearLayoutHelper1);
+        delegateAdapter.addAdapter(brandAdapter);
+
+        //秒杀
+        newProductListBeans = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper2 = new LinearLayoutHelper();
+        seckillAdapter = new SeckillAdapter(newProductListBeans, getActivity(), linearLayoutHelper2);
+        delegateAdapter.addAdapter(seckillAdapter);
+
+        //新鲜
+        XinXianList = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper3 = new LinearLayoutHelper();
+        fuFreshAdapter = new FuFreshAdapter(XinXianList, getActivity(), linearLayoutHelper3);
+        delegateAdapter.addAdapter(fuFreshAdapter);
+
+        //人气
+        renqilist = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper4 = new LinearLayoutHelper();
+        fuPopularityAdapter = new FuPopularityAdapter(renqilist, getActivity(), linearLayoutHelper4);
+        delegateAdapter.addAdapter(fuPopularityAdapter);
+
+        //专题
+        zhuantilist = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper5 = new LinearLayoutHelper();
+        fuSpecialAdapter = new FuSpecialAdapter(zhuantilist, getActivity(), linearLayoutHelper5);
+        delegateAdapter.addAdapter(fuSpecialAdapter);
+
+        //猜你
+        cainiList = new ArrayList<>();
+        LinearLayoutHelper linearLayoutHelper6 = new LinearLayoutHelper();
+        fuGuessyouAdapter = new FuGuessyouAdapter(cainiList, getActivity(), linearLayoutHelper6);
+        delegateAdapter.addAdapter(fuGuessyouAdapter);
+
     }
 
     @Override
@@ -204,22 +151,30 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
     }
 
     @Override
-    public void getBannerReturn(HomeBannerBean result) {
-        homeBanner.setImages(result.getData().getAdvertiseList())
-                .setImageLoader(new ImageLoader() {
-                    @Override
-                    public void displayImage(Context context, Object path, ImageView imageView) {
-                        HomeBannerBean.DataBean.AdvertiseListBean brandListBean = (HomeBannerBean.DataBean.AdvertiseListBean) path;
-                        Glide.with(context).load(brandListBean.getPic()).into(imageView);
-                    }
-                })
-                .setDelayTime(2000)
-                .start();
-        List<HomeBannerBean.DataBean.AdvertiseListBean> list = result.getData().getAdvertiseList();
-        for (int i = 0; i < list.size(); i++) {
-            arrList.add(list.get(i).getName());
-        }
-        getGunDong();
-        handler.postDelayed(runnable, 0);
+    public void getBannerReturn(HomeBean result) {
+        //轮播图
+        list.addAll(result.getData().getAdvertiseList());
+        bannerAdapter.notifyDataSetChanged();
+        //上下广告
+        list1.addAll(result.getData().getHotProductList());
+        homeMarqueeAdappter.notifyDataSetChanged();
+        //品牌
+        brandListBean.addAll(result.getData().getBrandList());
+        bannerAdapter.notifyDataSetChanged();
+        //秒杀
+        newProductListBeans.addAll(result.getData().getNewProductList());
+        seckillAdapter.notifyDataSetChanged();
+        //新鲜
+        XinXianList.addAll(result.getData().getHotProductList());
+        fuFreshAdapter.notifyDataSetChanged();
+        //人气
+        renqilist.addAll(result.getData().getHotProductList());
+        fuPopularityAdapter.notifyDataSetChanged();
+        //专题
+        zhuantilist.addAll(result.getData().getAdvertiseList());
+        fuSpecialAdapter.notifyDataSetChanged();
+        //猜你
+        cainiList.addAll(result.getData().getHotProductList());
+        fuGuessyouAdapter.notifyDataSetChanged();
     }
 }

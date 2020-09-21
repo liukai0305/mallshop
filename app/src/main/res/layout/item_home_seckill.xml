@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/img_hot_tu"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hot_qian"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/jiage"
+        android:gravity="center"
+        android:text="￥299"
+        android:textColor="@color/bai"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hot_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="秒杀价￥99"
+        android:textColor="@color/hong"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_hot_tu" />
+
+    <TextView
+        android:id="@+id/tv_hot_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="银色新莽刺绣网纱底裤"
+        android:textColor="@color/hei"
+        android:textSize="16sp"
+        android:maxLines="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hot_price" />
+
+    <TextView
+        android:id="@+id/tv_hot_trait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="薄如蝉翼,丝滑如肌肤"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hot_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   android:padding="10dp"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <TextView
+        android:id="@+id/tv_brand_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WFM制作上"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/tv_brand_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9.9元起"
+        android:layout_marginTop="15dp"
+        android:textSize="19dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_brand_title"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:id="@+id/tv_barand_xin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/shangxin"
+        android:text="上新"
+        android:textColor="@color/bai"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@id/img_brand_iv"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+
+        app:layout_constraintTop_toBottomOf="@id/tv_brand_money"
+        android:background="@drawable/ic_launcher_background"
+        android:id="@+id/img_brand_iv"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Constants {
 
-    public static final String Base_Dianshang = "http://169.254.96.147:8085";
+    public static final String Base_Dianshang = "http://169.254.220.9:8085/";
 
     //网络缓存的地址
     public static final String PATH_DATA = MyApp.app.getCacheDir().getAbsolutePath() + File.separator + "data";

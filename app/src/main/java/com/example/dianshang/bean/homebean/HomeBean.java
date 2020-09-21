@@ -2,7 +2,7 @@ package com.example.dianshang.bean.homebean;
 
 import java.util.List;
 
-public class HomeBannerBean {
+public class HomeBean {
 
     /**
      * code : 200

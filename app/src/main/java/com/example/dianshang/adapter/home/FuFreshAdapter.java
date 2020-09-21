@@ -5,27 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.LayoutHelper;
-import com.bumptech.glide.Glide;
 import com.example.dianshang.R;
 import com.example.dianshang.bean.homebean.HomeBean;
-import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 
-public class BannerAdapter extends DelegateAdapter.Adapter {
-    private ArrayList<HomeBean.DataBean.AdvertiseListBean> listBeans;
+public class FuFreshAdapter extends DelegateAdapter.Adapter {
+    private ArrayList<HomeBean.DataBean.HotProductListBean> list;
     private Context context;
     private LayoutHelper layoutHelper;
 
-    public BannerAdapter(ArrayList<HomeBean.DataBean.AdvertiseListBean> listBeans, Context context, LayoutHelper layoutHelper) {
-        this.listBeans = listBeans;
+    public FuFreshAdapter(ArrayList<HomeBean.DataBean.HotProductListBean> list, Context context, LayoutHelper layoutHelper) {
+        this.list = list;
         this.context = context;
         this.layoutHelper = layoutHelper;
     }
@@ -38,23 +37,19 @@ public class BannerAdapter extends DelegateAdapter.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.adapter_itemone, parent, false);
-        return new ViewHolder(inflate);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_fu_fresh, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder holder1= (ViewHolder) holder;
-        holder1.home_banner.setImages(listBeans)
-                .setImageLoader(new ImageLoader() {
-                    @Override
-                    public void displayImage(Context context, Object path, ImageView imageView) {
-                        HomeBean.DataBean.AdvertiseListBean brandListBean = (HomeBean.DataBean.AdvertiseListBean) path;
-                        Glide.with(context).load(brandListBean.getPic()).into(imageView);
-                    }
-                })
-                .setDelayTime(2000)
-                .start();
+
+        HomeziFreshAdapter homeFuFreshAdapter = new HomeziFreshAdapter(list, context);
+        holder1.home_rcy_xin.setLayoutManager(new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false));
+        holder1.home_rcy_xin.setAdapter(homeFuFreshAdapter);
+
+
     }
 
     @Override
@@ -63,14 +58,18 @@ public class BannerAdapter extends DelegateAdapter.Adapter {
     }
 
     public static
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder{
         public View rootView;
-        public Banner home_banner;
+        public TextView xin;
+        public ImageView geng;
+        public RecyclerView home_rcy_xin;
 
         public ViewHolder(View rootView) {
             super(rootView);
             this.rootView = rootView;
-            this.home_banner = (Banner) rootView.findViewById(R.id.home_banner);
+            this.xin = (TextView) rootView.findViewById(R.id.xin);
+            this.geng = (ImageView) rootView.findViewById(R.id.geng);
+            this.home_rcy_xin = (RecyclerView) rootView.findViewById(R.id.home_rcy_xin);
         }
 
     }

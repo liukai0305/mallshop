@@ -1,7 +1,7 @@
 package com.example.dianshang.persenter.home;
 
 import com.example.dianshang.base.BasePersenter;
-import com.example.dianshang.bean.homebean.HomeBannerBean;
+import com.example.dianshang.bean.homebean.HomeBean;
 import com.example.dianshang.common.CommonSubscriber;
 import com.example.dianshang.interfaces.home.IHome;
 import com.example.dianshang.modle.HttpManager;
@@ -12,9 +12,9 @@ public class HomePersenter extends BasePersenter<IHome.View> implements IHome.Pe
     public void getBanner() {
         addSubscribe(HttpManager.getInstance().getDsApi().getBanner()
                 .compose(RxUtils.rxScheduler())
-                .subscribeWith(new CommonSubscriber<HomeBannerBean>(mView) {
+                .subscribeWith(new CommonSubscriber<HomeBean>(mView) {
                     @Override
-                    public void onNext(HomeBannerBean homeBannerBean) {
+                    public void onNext(HomeBean homeBannerBean) {
                         mView.getBannerReturn(homeBannerBean);
                     }
                 })
